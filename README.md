@@ -52,28 +52,21 @@ Start the server
 npm start
 ```
 
-## Npm packages used
-- "bcrypt": "^5.1.1",
-- "compression": "^1.7.4",
-- "config": "^3.3.9",
-- "cors": "^2.8.5",
-- "crypto-js": "^4.2.0",
-- "dotenv": "^16.3.1",
-- "express": "^4.18.2",
-- "express-rate-limit": "^7.1.5",
-- "express-validator": "^7.0.1",
-- "jsonwebtoken": "^9.0.2",
-- "mongoose": "^8.0.3",
-- "morgan": "^1.10.0",
-- "nodemon": "^3.0.2"
+## Npm packages used and their usage
+- "bcrypt": "^5.1.1" --to securely hash the password
+- "compression": "^1.7.4" --to enables gzip compression for the HTTP responses sent by the server, to reduce the size of the data transferred over the network for faster response
+- "cors": "^2.8.5" --to enable Cross-Origin Resource Sharing (CORS)
+- "crypto-js": "^4.2.0" --to encrypted token for data integrity verification. Used for     Encryption and Decryption as it supports symmetric key encryption algorithms like AES
+- "dotenv": "^16.3.1" --to load environment variables from a .env file 
+- "express": "^4.18.2" --to create an express application
+- "express-rate-limit": "^7.1.5" --to implement rate limiting for endpoints
+- "express-validator": "^7.0.1" --to wrap the handler with middleware for body validations
+- "jsonwebtoken": "^9.0.2" --to create and verify JSON Web Tokens (JWT)
+- "mongoose": "^8.0.3" --to define schemas, models, and interact with MongoDB 
+- "morgan": "^1.10.0" --to log HTTP requests and information about incoming requests,helps in debugging, monitoring, and analyzing the behavior of the application
+- "nodemon": "^3.0.2" --it is a tool to automatically restart the application whenver there are any changes in the source code
 
 
-- Angular Material ver ^12.2.12
-- json-server ver ^^0.17.0 for database, db-json @ http://localhost:3000/
-- npm install -g json-serverto install json Server
-- https://www.npmjs.com/package/json-server for json server reference
-- json-server --watch db.json to run database server
-- SCSS
 ## Useful Links
 
 https://www.npmjs.com/
