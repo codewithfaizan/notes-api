@@ -4,7 +4,7 @@
 
 A Secure and Scalable RESTful API that allows users to create, read, update, and delete Notes. The application also allow users to share their notes with other users and search for notes based on keywords.
 
-<b><i>Note</i></b> Texh Stacks used - NodeJs, Express and MongoDB Database.
+<b><i>Note </i></b> <br/>Tech Stacks used NodeJs, Express and MongoDB Database.
 
 <i>Tags - </i>
 #node #express #monogdb
