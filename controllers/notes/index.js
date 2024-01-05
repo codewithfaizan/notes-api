@@ -33,7 +33,6 @@ desc : get a list of all notes for the authenticated user
 */
 router.get("/notes", async (req, res) => {
     const user = req.payload;
-    console.log(user);
     try {
         let notesData = await notesModel.find({ createdBy: req.payload.user_id })
         res.status(200).json({ success: true, message: "All Notes Fetched", notesData })
@@ -111,7 +110,7 @@ router.delete('/notes/:id', async (req, res) => {
         }
         res.status(200).json({ success: true, message: "Note Deleted Successfully" })
     } catch (error) {
-        console.error(error.message)
+        console.log(error.message)
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 });
@@ -136,7 +135,7 @@ router.get('/search', async (req, res) => {
         res.json(result);
 
     } catch (error) {
-        console.error(error.message)
+        console.log(error.message)
         res.status(500).json({ success: false, error: "this Internal Server Error" })
     }
 });
@@ -191,7 +190,7 @@ router.post(`/notes/:id/share`, async (req, res) => {
         res.status(200).json({ success: true, message: "Note shared successfully" });
 
     } catch (error) {
-        console.error(error.message)
+        console.log(error.message)
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 })

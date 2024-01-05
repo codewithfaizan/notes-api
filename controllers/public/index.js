@@ -7,6 +7,13 @@ import { userSignupValidations, userLoginValidations, errorMiddelware } from "..
 
 const router = express();
 
+
+/*
+METHOD : POST
+PUBLIC
+API Endpoint : /api/signup
+desc : create a new user accoun
+*/
 router.post('/signup', userSignupValidations(), errorMiddelware, async (req, res) => {
     try {
         const data = new userModel(req.body);
@@ -25,6 +32,48 @@ router.post('/signup', userSignupValidations(), errorMiddelware, async (req, res
     }
 });
 
+/*
+METHOD : POST
+PUBLIC
+API Endpoint : /api/login
+desc : log in to an existing user account and receive an access token
+*/
+router.post('/login', userLoginValidations(), errorMiddelware, async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const userData = await userModel.findOne({ email });
+
+        if (userData) {
+            let isFound = await bcrypt.compare(password, userData.password);
+            if (isFound) {
+                let payload = {
+                    user_id: userData._id, email: userData.email
+                }
+                const token = jwt.sign(payload, process.env.JWT_SECRET_KEY,);
+                const encryptAccessToken = CryptoJS.AES.encrypt(token, process.env.CRYPTO_SECRET_KEY).toString()
+
+                res.status(200).json({ success: true, message: "Login Successfull", accessToken: encryptAccessToken })
+            } return res.status(401).json({error : "Password does not Match"})
+
+        } return res.json({ error: "Email Not found" });
+
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ success: false, error: "Internal Server Error" })
+    }
+})
+
+
+
+// Additional testing route 
+
+/*
+METHOD : POST
+PUBLIC
+API Endpoint : /api/get
+desc : get all users
+*/
 router.get('/get', async (req, res) => {
     try {
         const userData = await userModel.find({});
@@ -35,41 +84,4 @@ router.get('/get', async (req, res) => {
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 })
-router.delete('/delete/:id', async (req, res) => {
-    try {
-        const { id } = req.params
-        const userData = await userModel.findByIdAndDelete(id);
-        if (!userData) return res.json(404).json({ error: "User id not found" })
-        res.status(200).json({ success: true, message: "User Deleted" })
-    } catch (error) {
-        console.error(error)
-        res.status(500).json({ success: false, error: "Internal Server Error" })
-    }
-})
-
-// const url = req.protocol + '://' + req.get('host')
-
-router.post('/login', userLoginValidations(), errorMiddelware, async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        const userData = await userModel.findOne({ email });
-
-        if (!userData) return res.json({ error: "Email Not found" });
-
-        console.log(userData)
-        let payload = {
-            user_id: userData._id,
-            email: userData.email
-        }
-        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY,);
-        const encryptAccessToken = CryptoJS.AES.encrypt(token, process.env.CRYPTO_SECRET_KEY).toString()
-
-        res.status(200).json({ success: true, message: "Login Successfull", accessToken: encryptAccessToken })
-    } catch (error) {
-        console.error(error)
-        res.status(500).json({ success: false, error: "Internal Server Error" })
-    }
-})
-
 export default router;
