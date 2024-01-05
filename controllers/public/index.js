@@ -35,13 +35,29 @@ router.get('/get', async (req, res) => {
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 })
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const userData = await userModel.findByIdAndDelete(id);
+        if (!userData) return res.json(404).json({ error: "User id not found" })
+        res.status(200).json({ success: true, message: "User Deleted" })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ success: false, error: "Internal Server Error" })
+    }
+})
 
 // const url = req.protocol + '://' + req.get('host')
 
 router.post('/login', userLoginValidations(), errorMiddelware, async (req, res) => {
     try {
         const { email, password } = req.body;
+
         const userData = await userModel.findOne({ email });
+
+        if (!userData) return res.json({ error: "Email Not found" });
+
+        console.log(userData)
         let payload = {
             user_id: userData._id,
             email: userData.email

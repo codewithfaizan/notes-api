@@ -2,13 +2,13 @@ import { body, validationResult } from "express-validator";
 
 const userSignupValidations = () => {
     return [
-        body("username", "username is required &&  > 2 char").notEmpty().isLength({ min: 2, max: 15 }),
+        body("userName", "username is required &&  > 2 char").notEmpty().isLength({ min: 2, max: 15 }),
 
         body("email", "Should be a valid Email").isEmail(),
 
         body("password", "Should be a strong Password").isStrongPassword().isLength({ min: 8, max: 16 }),
 
-        body("confirmpassword").custom((value, { req }) => {
+        body("confirmPassword").custom((value, { req }) => {
             if (value !== req.body.password) { throw new Error('Passwords do not match') } else {
                 return true;
             };
