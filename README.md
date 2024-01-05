@@ -1,4 +1,4 @@
-<h1>Spree Assessment</h1>
+<h1>Speer Assessment</h1>
 
 ## Project Overview
 
