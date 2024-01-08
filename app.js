@@ -20,20 +20,21 @@ const limiter = rateLimit({
     message: 'Too many Requests, Try again later.',
     headers : true
   });
-
+// instantiation
 const app = express();
+// middlewares
 app.use(cors('*'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(compression());
 app.use(limiter)
-
+// routes
 app.get('/', (req, res) => {
     res.json(`Notes api is Up`);
 })
 app.use('/api/auth', publicRouter);
 
-app.use(authMiddleware)
+app.use(authMiddleware) //auth middleware
 app.use('/api', notesRouter)
 
 app.use((req, res, next) => {

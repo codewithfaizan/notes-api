@@ -20,7 +20,7 @@ router.post('/signup', userSignupValidations(), errorMiddelware, async (req, res
 
         let emailCheck = await userModel.findOne({ email: data.email });
         if (emailCheck) return res.json({ error: "User already exists" });
-
+        
         let hashPass = await bcrypt.hash(data.password, 10);
         data.password = hashPass;
 
@@ -52,11 +52,11 @@ router.post('/login', userLoginValidations(), errorMiddelware, async (req, res) 
                 const token = jwt.sign(payload, process.env.JWT_SECRET_KEY,);
                 const encryptAccessToken = CryptoJS.AES.encrypt(token, process.env.CRYPTO_SECRET_KEY).toString()
 
-                res.status(200).json({ success: true, message: "Login Successfull", accessToken: encryptAccessToken })
-            } return res.status(401).json({error : "Password does not Match"})
+                return res.status(200).json({ success: true, message: "Login Successful", accessToken: encryptAccessToken });
 
-        } return res.json({ error: "Email Not found" });
+            } else { return res.status(401).json({ error: "Password does not Match" }) }
 
+        }
 
     } catch (error) {
         console.error(error)
